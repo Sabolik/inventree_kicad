@@ -55,6 +55,13 @@ class KiCadLibraryPlugin(UrlsMixin, AppMixin, SettingsMixin, SettingsContentMixi
             'validator': bool,
             'default': True,
         },
+        'KICAD_ENABLE_IS_VARIANT': {
+            'name': _('Display Variant Of PN'),
+            'description': _(
+                'When activated, the plugin will provide variant of information which will be displayed as part of the top level description in KiCad'),
+            'validator': bool,
+            'default': False,
+        },
         'KICAD_ENABLE_STOCK_COUNT': {
             'name': _('Display Available Stock'),
             'description': _(

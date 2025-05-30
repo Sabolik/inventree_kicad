@@ -453,6 +453,9 @@ class KicadPreviewPartSerializer(serializers.ModelSerializer):
         if they enable it.
         """
 
+        if not hasattr(self, 'enable_is_variant'):
+            self.enable_is_variant = str2bool(self.plugin.get_setting('KICAD_ENABLE_IS_VARIANT', False))
+
         if not hasattr(self, 'enable_stock_count'):
             self.enable_stock_count = str2bool(self.plugin.get_setting('KICAD_ENABLE_STOCK_COUNT', False))
         
@@ -469,6 +472,10 @@ class KicadPreviewPartSerializer(serializers.ModelSerializer):
                 description = self.stock_count_format.format(part.description, decimal2string(stock_count))
             except Exception as e:
                 logger.exception("Failed to format stock count: %s", e)
+
+        if self.enable_is_variant and part.variant_of:
+            # Show name of template PN (Variant Of) 
+            description = "[Variant of: {0}] {1}".format(getattr(part.variant_of, 'name', 0), description)
 
         return description
 
